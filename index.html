@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Instagram Live Simulation</title>
+    <title>Instagram Live AI Realtime Matrix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,6 +35,714 @@
         }
         .host-info { display: flex; align-items: center; gap: 10px; }
         .host-avatar {
+            width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fff;
+            object-fit: cover; background: #2a2a2a; flex-shrink: 0;
+        }
+        .host-name {
+            font-size: 13px; font-weight: 700; color: #fff;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .host-name .verified { fill: #0095f6; width: 14px; height: 14px; display: inline-block; }
+        .host-name .verified.hidden { display: none !important; }
+        .live-badge {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); padding: 4px 12px 4px 10px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
+        }
+        .live-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #ff3040;
+            animation: pulseDot 1.2s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .live-badge .label {
+            font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+            text-transform: uppercase; color: #fff;
+        }
+        .viewer-count {
+            display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: #fff;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 3px 10px 3px 8px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
+        }
+        .viewer-count svg { width: 14px; height: 14px; }
+        .close-btn {
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.15s; font-size: 18px; border: 1px solid rgba(255,255,255,0.06);
+        }
+        .close-btn:active { transform: scale(0.88); }
+        
+        #comment-box {
+            flex: 1;
+            max-height: 52vh;
+            min-height: 140px;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 6px 2px 4px 2px;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%);
+            scroll-behavior: smooth;
+            gap: 2px;
+            -webkit-overflow-scrolling: touch;
+            pointer-events: auto !important;
+            touch-action: pan-y !important;
+            overscroll-behavior: contain;
+        }
+        .comment-item {
+            display: flex; align-items: flex-start; gap: 8px; padding: 2px 4px;
+            animation: commentIn 0.3s cubic-bezier(0.12, 1, 0.2, 1) forwards;
+            transform-origin: bottom left; max-width: 92%;
+        }
+        .comment-item.stealth-comment {
+            opacity: 0.2 !important;
+            filter: blur(0.8px);
+            transition: opacity 0.3s;
+        }
+        .comment-item.stealth-comment:hover { opacity: 0.7 !important; }
+        @keyframes commentIn {
+            0% { transform: translateY(16px) scale(0.96); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .comment-avatar {
+            width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+            border: 1.5px solid rgba(255,255,255,0.08); flex-shrink: 0; background: #2a2a2a;
+        }
+        .comment-body { display: flex; flex-direction: column; gap: 0; min-width: 0; flex: 1; }
+        .comment-header { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+        .comment-username { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85); }
+        .comment-username.host { color: #fbbf24; }
+        .comment-badge {
+            font-size: 7px; font-weight: 800; text-transform: uppercase;
+            padding: 0 5px; border-radius: 8px; background: #f59e0b; color: #000; letter-spacing: 0.3px;
+        }
+        .comment-text {
+            font-size: 13px; color: #fff; line-height: 1.3; word-break: break-word;
+            font-weight: 400; text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+        }
+        .reply-tag { color: #38bdf8; font-weight: 600; margin-right: 3px; }
+        
+        /* Classic Floating Hearts (Instagram Live Style Vector/Glass Morphism) */
+        .classic-heart-burst {
+            position: fixed;
+            bottom: 75px;
+            right: 20px;
+            width: 46px;
+            height: 380px;
+            pointer-events: none;
+            z-index: 50;
+            overflow: visible;
+        }
+        .floating-vector-heart {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: var(--size, 32px);
+            height: var(--size, 32px);
+            animation: floatVectorHeart var(--dur, 2.6s) cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+            filter: drop-shadow(0 4px 12px rgba(255, 48, 90, 0.5));
+            will-change: transform, opacity;
+        }
+        @keyframes floatVectorHeart {
+            0% {
+                transform: translate(0, 0) scale(0.2) rotate(var(--rot-start, -15deg));
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.95;
+                transform: translate(calc(var(--path-x1, 15px) * 1px), -60px) scale(1.1) rotate(0deg);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translate(calc(var(--path-x2, -20px) * 1px), -200px) scale(1) rotate(var(--rot-mid, 10deg));
+            }
+            85% {
+                opacity: 0.6;
+                transform: translate(calc(var(--path-x3, 10px) * 1px), -340px) scale(0.9) rotate(var(--rot-end, -5deg));
+            }
+            100% {
+                transform: translate(calc(var(--path-x4, -15px) * 1px), -440px) scale(0.4) rotate(15deg);
+                opacity: 0;
+            }
+        }
+        
+        .bottom-bar {
+            display: flex; align-items: center; gap: 8px; padding: 4px 0 8px 0;
+            margin-bottom: env(safe-area-inset-bottom, 2px);
+            background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+            padding-top: 12px; margin: 0 -12px; padding-left: 12px; padding-right: 12px;
+        }
+        .chat-input-wrap {
+            flex: 1; background: rgba(255,255,255,0.08); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px; padding: 2px 4px 2px 16px; display: flex; align-items: center;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .chat-input-wrap:focus-within { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.12); }
+        .chat-input-wrap input {
+            flex: 1; background: transparent; border: none; outline: none; color: #fff;
+            font-size: 14px; padding: 9px 4px 9px 0; min-width: 0; font-weight: 400;
+        }
+        .chat-input-wrap input::placeholder { color: rgba(255,255,255,0.3); font-weight: 400; }
+        .bottom-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+        .bottom-actions button {
+            background: none; border: none; color: #fff; padding: 8px 10px; cursor: pointer;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s; touch-action: manipulation; position: relative;
+        }
+        .bottom-actions button:active { transform: scale(0.85); }
+        .bottom-actions .send-btn { color: #0095f6; }
+        .bottom-actions .heart-btn { color: #ff305a; animation: pulseHeart 1.6s ease-in-out infinite; }
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+        .mic-btn {
+            color: #fff; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center;
+            justify-content: center; transition: all 0.25s; cursor: pointer; flex-shrink: 0;
+        }
+        .mic-btn.active {
+            background: rgba(255,48,90,0.25); border-color: #ff305a; color: #ff305a;
+            box-shadow: 0 0 30px rgba(255,48,90,0.2);
+        }
+        .mic-btn:active { transform: scale(0.88); }
+        .mic-btn svg { width: 22px; height: 22px; }
+
+        #setup-screen {
+            position: fixed; inset: 0; z-index: 1000; background: #121212;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px 16px; overflow-y: auto;
+        }
+        .setup-card {
+            max-width: 400px; width: 100%; background: #1a1a1a; border-radius: 32px;
+            padding: 28px 22px 30px 22px; border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+        }
+        .setup-card .brand { text-align: center; margin-bottom: 22px; }
+        .setup-card .brand h1 {
+            font-size: 26px; font-weight: 900; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #a855f7, #ec4899, #f59e0b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .setup-card .brand p {
+            color: #71717a; font-size: 10px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 2px; margin-top: 2px;
+        }
+        .profile-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .avatar-upload { position: relative; width: 68px; height: 68px; flex-shrink: 0; }
+        .avatar-upload img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            border: 3px solid #8b5cf6; background: #2a2a2a;
+        }
+        .avatar-upload .camera-overlay {
+            position: absolute; inset: 0; border-radius: 50%; background: rgba(0,0,0,0.35);
+            display: flex; align-items: center; justify-content: center; opacity: 0;
+            transition: opacity 0.2s; cursor: pointer;
+        }
+        .avatar-upload:hover .camera-overlay { opacity: 1; }
+        .avatar-upload input[type="file"] {
+            position: absolute; inset: 0; opacity: 0; cursor: pointer; border-radius: 50%;
+        }
+        .setup-fields { display: flex; flex-direction: column; gap: 12px; }
+        .setup-fields .field { display: flex; flex-direction: column; gap: 3px; }
+        .setup-fields .field label {
+            font-size: 10px; font-weight: 600; color: #a1a1aa; text-transform: uppercase;
+            letter-spacing: 0.8px; display: flex; align-items: center; gap: 4px;
+        }
+        .setup-fields input, .setup-fields select {
+            background: #262626; border: 1px solid #333; border-radius: 12px;
+            padding: 11px 14px; color: #fff; font-size: 14px; font-weight: 500;
+            outline: none; transition: border-color 0.2s; width: 100%;
+        }
+        .setup-fields input:focus, .setup-fields select:focus { border-color: #8b5cf6; }
+        .setup-fields select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23717a7a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center;
+        }
+        .checkbox-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+        .checkbox-row input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: #0095f6; border-radius: 4px; flex-shrink: 0;
+        }
+        .checkbox-row label {
+            font-size: 12px; color: #d4d4d8; font-weight: 500;
+            display: flex; align-items: center; gap: 4px; cursor: pointer;
+        }
+        .btn-start {
+            width: 100%; background: linear-gradient(135deg, #0095f6, #0066cc); border: none;
+            border-radius: 14px; padding: 15px; color: #fff; font-size: 17px; font-weight: 800;
+            letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px;
+            box-shadow: 0 8px 30px rgba(0,149,246,0.15);
+        }
+        .btn-start:active { transform: scale(0.97); }
+        
+        #comment-box::-webkit-scrollbar { width: 3px; }
+        #comment-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="setup-screen">
+        <div class="setup-card">
+            <div class="brand">
+                <h1>Instagram Live</h1>
+                <p>Realtime AI Dynamic Conversation Matrix</p>
+            </div>
+            <div class="profile-row">
+                <div class="avatar-upload">
+                    <img id="pfp-preview" src="https://ui-avatars.com/api/?name=User&background=8B5CF6&color=fff&size=128" alt="Profile">
+                    <div class="camera-overlay">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    </div>
+                    <input type="file" id="pfp-input" accept="image/*" onchange="previewAvatar(event)">
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+                    <input type="text" id="user-in" placeholder="username" value="dokta_bless" oninput="this.value=this.value.replace(/[^a-zA-Z0-9_.]/g,'')" class="bg-[#262626] border border-[#333] rounded-xl px-4 py-2.5 text-white text-lg font-bold outline-none focus:border-purple-500 w-full">
+                    <div class="checkbox-row" style="padding:0;">
+                        <input type="checkbox" id="verified-in" checked>
+                        <label for="verified-in">Akaunti Iliyothibitishwa <span style="color:#0095f6;">✓</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="setup-fields">
+                <div class="field">
+                    <label>🎯 Mada ya Live</label>
+                    <select id="topic-in">
+                        <option value="herbal">🌿 Tiba Asilia & Afya (Herbal Solution)</option>
+                        <option value="vibe">🔥 Vibe, Mapenzi & Maisha ya Kila Siku</option>
+                        <option value="business">💼 Biashara, Digital Marketing & Pesa</option>
+                        <option value="comedy">😂 Vichekesho & Stori za Mitaani</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>👥 Lengo la Watazamaji</label>
+                    <input type="number" id="target-in" value="1250" min="50" step="50" class="text-2xl font-black">
+                </div>
+                <button class="btn-start" onclick="startLive()">
+                    <span>🔴</span> ANZA LIVE YA AKILI (AI)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <video id="video-feed" autoplay playsinline muted></video>
+    <div class="overlay-gradient"></div>
+    <div id="toast" style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:8px 18px;border-radius:24px;border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:12px;font-weight:600;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.25s;"></div>
+
+    <div id="live-ui">
+        <div class="top-bar">
+            <div class="host-info">
+                <img id="live-pfp" class="host-avatar" src="" alt="Host">
+                <div class="host-name">
+                    <span id="live-user">user</span>
+                    <svg id="verified-icon" class="verified hidden" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z"/></svg>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    <span class="label">Live</span>
+                </div>
+                <div class="viewer-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span id="v-count">1</span>
+                </div>
+                <button class="close-btn" onclick="exitLive()">✕</button>
+            </div>
+        </div>
+
+        <div style="flex:1;"></div>
+        <div id="comment-box"></div>
+        <div class="classic-heart-burst" id="heart-container"></div>
+
+        <div class="bottom-bar">
+            <div class="chat-input-wrap">
+                <input type="text" id="my-comment" placeholder="Sema au andika kitu kwenye live..." onkeydown="if(event.key==='Enter') sendMyComment()" autocomplete="off">
+                <div class="bottom-actions">
+                    <button class="send-btn" onclick="sendMyComment()" title="Tuma">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                    <button class="heart-btn" onclick="triggerHeartBurst(4)" title="Mioyo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </button>
+                </div>
+            </div>
+            <button id="mic-btn" class="mic-btn" onclick="toggleMic()" title="Mic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentV = 1;
+        let targetV = 1250;
+        let topic = 'herbal';
+        let myName = 'dokta_bless';
+        let myPfp = 'https://ui-avatars.com/api/?name=Dokta+Bless&background=8B5CF6&color=fff&size=128';
+        let isVerified = true;
+        let isLive = false;
+        let micActive = false;
+        let recognition = null;
+        let commentLoopTimer = null;
+
+        // Majina ya kitanzania ya kipekee na ya asili
+        const firstNames = [
+            "Baraka", "Neema", "Aisha", "Juma", "Mwanaidi", "Khamis", "Zuwena", "Rashid",
+            "Fatma", "Salum", "Rehema", "Godfrey", "Amina", "Bakari", "Hassan", "Mariam",
+            "Kelvin", "Grace", "Emmanuel", "Lilian", "Joseph", "Nuru", "Jackson", "Prisca",
+            "Farida", "Said", "Tunu", "Yusuph", "Zaituni", "Mbaga", "Mwajuma", "Frank"
+        ];
+        const lastNames = [
+            "Mwinyi", "Juma", "Mtanzania", "Mrema", "Mtei", "Mwakasege", "Msigwa", "Kilemile",
+            "Lyimo", "Kimaro", "Shayo", "Nassoro", "Mndolwa", "Mbwana", "Chande", "Masanja",
+            "Magesa", "John", "Peter", "Paulo", "Ally", "Hussein", "RASHID", "Swai", "Ngowi"
+        ];
+
+        let generatedProfilesCache = [];
+
+        function getRandomTzUser() {
+            const f = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const cleanF = f.toLowerCase();
+            const cleanL = l.toLowerCase();
+            const rNum = Math.floor(Math.random() * 899 + 100);
+            
+            const styles = ['_', '.', ''];
+            const chosenStyle = styles[Math.floor(Math.random() * styles.length)];
+            const username = `${cleanF}${chosenStyle}${cleanL}${rNum}`;
+            
+            // Picha za kipekee za wasifu kupitia Unsplash IDs zilizochaguliwa kutoa uhalisia mpana
+            const photoIds = [
+                "1534528741775-53994a69daeb", "1507003211169-0a1dd7228f2d", "1494790108377-be9c29b29330",
+                "1500648767791-00dcc994a43e", "1524504388940-b1c1722653e1", "1501196354995-cbb51c65aaea",
+                "1539571696357-5a69c17a67c6", "1517841905240-472988babdf9", "1522075469751-3a6694fb2f61",
+                "1506794778202-cad84cf45f1d", "1492562080023-ab3db95bfbce", "1544005313-94ddf0286df2"
+            ];
+            const pId = photoIds[Math.floor(Math.random() * photoIds.length)];
+            const avatar = `https://images.unsplash.com/photo-${pId}?w=120&h=120&fit=crop&crop=faces`;
+
+            return { username, avatar };
+        }
+
+        function previewAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    myPfp = e.target.result;
+                    document.getElementById('pfp-preview').src = myPfp;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            t.style.opacity = '1';
+            setTimeout(() => {
+                t.style.opacity = '0';
+                setTimeout(() => t.style.display = 'none', 250);
+            }, 2500);
+        }
+
+        async function startLive() {
+            myName = document.getElementById('user-in').value || 'dokta_bless';
+            isVerified = document.getElementById('verified-in').checked;
+            topic = document.getElementById('topic-in').value;
+            targetV = parseInt(document.getElementById('target-in').value) || 1250;
+
+            document.getElementById('live-user').textContent = myName;
+            document.getElementById('live-pfp').src = myPfp;
+            if (isVerified) {
+                document.getElementById('verified-icon').classList.remove('hidden');
+            } else {
+                document.getElementById('verified-icon').classList.add('hidden');
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
+                    audio: true 
+                });
+                document.getElementById('video-feed').srcObject = stream;
+            } catch (err) {
+                alert('Imeshindwa kufungua kamera. Tafadhali ruhusu matumizi ya kamera (Camera Permission).');
+                console.error(err);
+                return;
+            }
+
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('live-ui').style.display = 'flex';
+            isLive = true;
+
+            startViewerEngine();
+            startDynamicRealtimeEngine();
+        }
+
+        function exitLive() {
+            isLive = false;
+            const videoElement = document.getElementById('video-feed');
+            if (videoElement.srcObject) {
+                videoElement.srcObject.getTracks().forEach(track => track.stop());
+            }
+            location.reload();
+        }
+
+        function startViewerEngine() {
+            setInterval(() => {
+                if (!isLive) return;
+                if (currentV < targetV) {
+                    currentV += Math.floor(Math.random() * 6) + 2;
+                    if (currentV > targetV) currentV = targetV;
+                    document.getElementById('v-count').textContent = currentV;
+                }
+            }, 1000);
+        }
+
+        function addComment(username, avatarUrl, text, isHost = false, replyTo = '', isStealth = false) {
+            const box = document.getElementById('comment-box');
+            const isScrolledUp = box.scrollHeight - box.scrollTop - box.clientHeight > 100;
+
+            const item = document.createElement('div');
+            item.className = 'comment-item';
+            if (isStealth && isHost) {
+                item.classList.add('stealth-comment');
+            }
+
+            let replyHtml = replyTo ? `<span class="reply-tag">@<span>${replyTo}</span></span> ` : '';
+
+            item.innerHTML = `
+                <img class="comment-avatar" src="${isHost ? myPfp : avatarUrl}" alt="">
+                <div class="comment-body">
+                    <div class="comment-header">
+                        <span class="comment-username ${isHost ? 'host' : ''}">${username}</span>
+                        ${isHost ? '<span class="comment-badge">HOST</span>' : ''}
+                    </div>
+                    <div class="comment-text">${replyHtml}${text}</div>
+                </div>
+            `;
+            box.appendChild(item);
+
+            if (!isScrolledUp) {
+                box.scrollTop = box.scrollHeight;
+            }
+
+            if (box.children.length > 70) {
+                box.removeChild(box.firstChild);
+            }
+        }
+
+        // AI Realtime Matrix Engine - Inatengeneza majibu ya moja kwa moja kulingana na kile unachoongea au mada
+        function getAIRealtimeResponse(inputStr, isUserDirect = false) {
+            const txt = inputStr.toLowerCase();
+            
+            // Kanuni za uchambuzi wa AI kuendana na mazungumzo yako halisi
+            if (txt.includes('bei') || txt.includes('shilingi') || txt.includes('pesa') || txt.includes('nunua') || txt.includes('oda') || txt.includes('kiasi')) {
+                return [
+                    "Weka bei wazi mkuu nifanye malipo sasa hivi!",
+                    "Tunawezaje kupata hiyo bidhaa mkoani? Toa maelekezo.",
+                    "Hii huduma bei yake ikoje kwa jumla na rejareja?",
+                    "Nitumie namba ya malipo nikuwekee oda yangu hapa.",
+                    "Mimi niko Arusha mzigo utanifikia ndani ya muda gani?"
+                ];
+            } else if (txt.includes('afya') || txt.includes('tiba') || txt.includes('mgonjwa') || txt.includes('mwili') || txt.includes('mmea') || txt.includes('dawa')) {
+                return [
+                    "Hii dawa inasaidia pia kwa mwenye changamoto ya presha?",
+                    "Asante sana Dokta kwa elimu nzuri ya afya leo.",
+                    "Naweza kutumia hii pamoja na dawa za hospitali au niache kwanza?",
+                    "Kweli kabisa tiba asilia haina madhara kama ukifuata vipimo.",
+                    "Unafanya consultation ya ana kwa ana ofisini kwako wapi?"
+                ];
+            } else if (txt.includes('habari') || txt.includes('mambo') || txt.includes('vipi') || txt.includes('mkoa') || txt.includes('karibu')) {
+                return [
+                    "Salama kabisa bro, tunakusikiliza ukiwa wapi hapo?",
+                    "Vipi hali mkuu? Tuko pamoja tangu asubuhi.",
+                    "Dar es Salaam hali ikoje upande wenu huko?",
+                    "Tunasubiri mwendelezo wa mada nzuri ya leo.",
+                    "Moja kwa moja kutoka Mwanza tuko live na wewe!"
+                ];
+            } else {
+                // Mada za jumla zenye akili kulingana na category uliyochagua
+                const topicPools = {
+                    herbal: [
+                        "Elimu nzuri sana hii, mimea yetu ina faida kubwa.",
+                        "Watu wengi hatujui thamani ya tiba asilia hadi pale inapobidi.",
+                        "Nipe ushauri kidogo kuhusu mfumo wa mmeng'enyo wa chakula.",
+                        "Asante kwa mwanga mzuri kuhusu afya ya mwili.",
+                        "Hii ni live ya kipekee sana kwa kweli."
+                    ],
+                    vibe: [
+                        "Ukweli mtupu huo kaka, nakubaliana na wewe asilimia mia.",
+                        "Hahah hii ni hatari sana, watu hawataelewa kirahisi.",
+                        "Wape ukweli huo ili wakome kujifunza kwa maneno.",
+                        "Mambo ni moto kweli kweli kwenye live ya leo!",
+                        "Nakubali sana mtazamo wako kwenye hili swala."
+                    ],
+                    business: [
+                        "Mtaji mzuri ni maarifa na msimamo sahihi kwenye biashara.",
+                        "Tufundishe namna ya kukuza mtandao wa masoko kidigitali.",
+                        "Ushauri mzuri sana kwa vijana wanaotaka kuanza leo.",
+                        "Biashara inahitaji uvumilivu mkubwa sana.",
+                        "Nimejifunza kitu kikubwa sana kupitia hili somo."
+                    ],
+                    comedy: [
+                        "Hahah jamani mbona mnaniua kwa vicheko? 😂",
+                        "Hii haijawahi kutokea mtaa wa pili huku!",
+                        "Umetisha sana mkuu kwa stori hiyo ya leo.",
+                        "Watu wa Dar mna maneno mengi sana jamani 😂",
+                        "Acha kabisa, hii imevunja rekodi!"
+                    ]
+                };
+                return topicPools[topic] || topicPools.vibe;
+            }
+        }
+
+        function triggerMultipleComments(customPrompt = "") {
+            const responses = getAIRealtimeResponse(customPrompt);
+            // Zalisha komenti 2 hadi 4 kwa mpigo kuleta uhalisia wa live kubwa
+            const count = Math.floor(Math.random() * 2) + 2;
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const prof = getRandomTzUser();
+                    const text = responses[Math.floor(Math.random() * responses.length)];
+                    const replyTo = (Math.random() > 0.6 && customPrompt) ? myName : '';
+                    addComment(prof.username, prof.avatar, text, false, replyTo);
+                }, i * 400 + Math.random() * 300);
+            }
+        }
+
+        function startDynamicRealtimeEngine() {
+            // Kila baada ya sekunde kadhaa, AI inatengeneza mazungumzo ya watazamaji wenyewe
+            commentLoopTimer = setInterval(() => {
+                if (!isLive) return;
+                triggerMultipleComments("");
+            }, 3500);
+        }
+
+        function sendMyComment(isFromVoice = false) {
+            const input = document.getElementById('my-comment');
+            const val = input.value.trim();
+            if (!val) return;
+            
+            addComment(myName, myPfp, val, true, '', isFromVoice);
+            input.value = '';
+
+            // Fanya mioyo iruke kujiunga na ujumbe wako
+            triggerHeartBurst(3);
+
+            // Wakati huo huo AI inajibu ujumbe wako papo hapo kwa mtindo wa real-time
+            setTimeout(() => {
+                triggerMultipleComments(val);
+            }, 800);
+        }
+
+        // Classic Vector Heart Animation System (Instagram Live Style)
+        function triggerHeartBurst(count = 1) {
+            const container = document.getElementById('heart-container');
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-vector-heart';
+                    
+                    // Rangi mbalimbali za classic za Instagram Live hearts (Nyekundu, Pinki, Njano, Zambarau)
+                    const colors = [
+                        '#ff305a', '#ff4d79', '#ff1a40', '#ff708f', '#ffcc00', '#d946ef', '#ec4899'
+                    ];
+                    const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+                    const size = Math.floor(Math.random() * 12) + 26; // Ukubwa wa kipekee 26px hadi 38px
+                    
+                    heart.style.setProperty('--size', `${size}px`);
+                    heart.style.setProperty('--dur', `${(Math.random() * 0.8 + 2.2).toFixed(2)}s`);
+                    heart.style.setProperty('--path-x1', (Math.random() * 50 - 25));
+                    heart.style.setProperty('--path-x2', (Math.random() * 80 - 40));
+                    heart.style.setProperty('--path-x3', (Math.random() * 70 - 35));
+                    heart.style.setProperty('--path-x4', (Math.random() * 100 - 50));
+                    heart.style.setProperty('--rot-start', `${Math.random() * 30 - 15}deg`);
+                    heart.style.setProperty('--rot-mid', `${Math.random() * 40 - 20}deg`);
+                    heart.style.setProperty('--rot-end', `${Math.random() * 50 - 25}deg`);
+
+                    heart.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="100%" height="100%" fill="${chosenColor}" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    `;
+
+                    container.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3200);
+                }, i * 180);
+            }
+        }
+
+        function toggleMic() {
+            const micBtn = document.getElementById('mic-btn');
+            micActive = !micActive;
+            
+            if (micActive) {
+                micBtn.classList.add('active');
+                showToast('Kipaza sauti kimewashwa (AI inasikiliza unachoongea...)');
+                
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    recognition = new SpeechRecognition();
+                    recognition.lang = 'sw-TZ';
+                    recognition.continuous = true;
+                    recognition.interimResults = false;
+
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                        if (transcript) {
+                            document.getElementById('my-comment').value = transcript;
+                            sendMyComment(true);
+                        }
+                    };
+
+                    recognition.onerror = function(event) {
+                        console.error('Speech recognition error', event.error);
+                    };
+
+                    recognition.onend = function() {
+                        if (micActive && recognition) {
+                            try { recognition.start(); } catch(e){}
+                        }
+                    };
+
+                    try {
+                        recognition.start();
+                    } catch(e) {
+                        console.error(e);
+                    }
+                } else {
+                    showToast('Browser yako haisupport kipengele cha sauti.');
+                }
+            } else {
+                micBtn.classList.remove('active');
+                showToast('Kipaza sauti kimezimwa.');
+                if (recognition) {
+                    recognition.stop();
+                    recognition = null;
+                }
+            }
+        }
+    </script>
+</body>
+</html>        .host-avatar {
             width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fff;
             object-fit: cover; background: #2a2a2a; flex-shrink: 0;
         }
