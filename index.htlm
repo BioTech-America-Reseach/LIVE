@@ -122,8 +122,6 @@
             font-size: 13px; color: #fff; line-height: 1.3; word-break: break-word;
             font-weight: 400; text-shadow: 0 1px 6px rgba(0,0,0,0.6);
         }
-        .comment-text .reply-tag { color: rgba(255,255,255,0.35); font-size: 10px; margin-right: 4px; }
-        .comment-text .reply-tag span { color: rgba(255,255,255,0.55); font-weight: 500; }
         .float-heart {
             position: fixed;
             bottom: 72px;
@@ -201,41 +199,7 @@
         }
         .mic-btn:active { transform: scale(0.88); }
         .mic-btn svg { width: 22px; height: 22px; }
-        .mic-indicator {
-            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 15;
-            background: rgba(0,0,0,0.75); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            padding: 5px 18px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05);
-            color: #fff; font-size: 11px; font-weight: 600; display: none; align-items: center;
-            gap: 8px; pointer-events: none; white-space: nowrap;
-        }
-        .mic-indicator .dot {
-            width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
-            animation: blinkDot 1s ease-in-out infinite;
-        }
-        .mic-indicator .dot.listening { background: #f59e0b; }
-        @keyframes blinkDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.25; transform: scale(0.7); }
-        }
-        .ai-toggle {
-            display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            padding: 2px 10px 2px 8px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
-            font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer;
-            transition: all 0.2s; user-select: none; letter-spacing: 0.3px; text-transform: uppercase;
-        }
-        .ai-toggle.active {
-            color: #0095f6; border-color: rgba(0,149,246,0.2); background: rgba(0,149,246,0.08);
-        }
-        .ai-toggle .indicator {
-            width: 6px; height: 6px; border-radius: 50%; background: #555; transition: background 0.3s;
-        }
-        .ai-toggle.active .indicator {
-            background: #0095f6; box-shadow: 0 0 12px rgba(0,149,246,0.3);
-        }
-        
-        
-        
+
         #setup-screen {
             position: fixed; inset: 0; z-index: 1000; background: #121212;
             display: flex; align-items: center; justify-content: center;
@@ -304,49 +268,8 @@
             box-shadow: 0 8px 30px rgba(0,149,246,0.15);
         }
         .btn-start:active { transform: scale(0.97); }
-        .settings-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 4px 0; border-top: 1px solid rgba(255,255,255,0.04);
-            margin-top: 4px; padding-top: 10px;
-        }
-        .settings-row .label {
-            font-size: 11px; font-weight: 600; color: #a1a1aa; text-transform: uppercase;
-            letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;
-        }
-        .settings-row .toggle-track {
-            width: 40px; height: 22px; background: #333; border-radius: 12px;
-            position: relative; cursor: pointer; transition: background 0.25s; flex-shrink: 0;
-        }
-        .settings-row .toggle-track.active { background: #0095f6; }
-        .settings-row .toggle-track .thumb {
-            width: 18px; height: 18px; background: #fff; border-radius: 50%;
-            position: absolute; top: 2px; left: 2px; transition: transform 0.25s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        .settings-row .toggle-track.active .thumb { transform: translateX(18px); }
-        @media (max-width: 480px) {
-            .setup-card { padding: 20px 16px 22px 16px; border-radius: 24px; }
-            .setup-card .brand h1 { font-size: 20px; }
-            .comment-avatar { width: 24px; height: 24px; }
-            .comment-text { font-size: 12px; }
-            .comment-username { font-size: 10px; }
-            .chat-input-wrap input { font-size: 13px; padding: 7px 4px 7px 0; }
-            
-            
-            .float-heart { font-size: 24px; bottom: 64px; right: 10px; }
-            .host-avatar { width: 30px; height: 30px; }
-            .host-name { font-size: 12px; }
-            .mic-btn { width: 36px; height: 36px; }
-            .mic-btn svg { width: 18px; height: 18px; }
-            .bottom-actions button { padding: 6px 8px; }
-            .bottom-actions .heart-btn svg { width: 22px; height: 22px; }
-            .bottom-actions .send-btn svg { width: 18px; height: 18px; }
-        }
         #comment-box::-webkit-scrollbar { display: none; }
         #comment-box { -ms-overflow-style: none; scrollbar-width: none; }
-        :-webkit-full-screen #video-feed, :-moz-full-screen #video-feed, :fullscreen #video-feed {
-            width: 100vw; height: 100vh;
-        }
     </style>
 </head>
 <body>
@@ -354,7 +277,7 @@
         <div class="setup-card">
             <div class="brand">
                 <h1>Instagram Live</h1>
-                <p>Dhibiti Live kwa Sauti</p>
+                <p>Dhibiti Live kwa Sauti na AI</p>
             </div>
             <div class="profile-row">
                 <div class="avatar-upload">
@@ -362,7 +285,7 @@
                     <div class="camera-overlay">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                     </div>
-                    <input type="file" id="pfp-input" accept="image/*">
+                    <input type="file" id="pfp-input" accept="image/*" onchange="previewAvatar(event)">
                 </div>
                 <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
                     <input type="text" id="user-in" placeholder="username" value="mwalimu" oninput="this.value=this.value.replace(/[^a-zA-Z0-9_.]/g,'')" class="bg-[#262626] border border-[#333] rounded-xl px-4 py-2.5 text-white text-lg font-bold outline-none focus:border-purple-500 w-full">
@@ -386,12 +309,6 @@
                     <label>👥 Lengo la Watazamaji</label>
                     <input type="number" id="target-in" value="800" min="50" step="50" class="text-2xl font-black">
                 </div>
-                <div class="settings-row">
-                    <span class="label">🤖 AI Mode</span>
-                    <div id="ai-toggle-setup" class="toggle-track active" onclick="toggleAISetup()">
-                        <div class="thumb"></div>
-                    </div>
-                </div>
                 <button class="btn-start" onclick="startLive()">
                     <span>🔴</span> ANZA LIVE
                 </button>
@@ -401,8 +318,6 @@
 
     <video id="video-feed" autoplay playsinline muted></video>
     <div class="overlay-gradient"></div>
-
-    <!-- Brief toast notifications only (no persistent mic status) -->
     <div id="toast" style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:8px 18px;border-radius:24px;border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:12px;font-weight:600;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.25s;"></div>
 
     <div id="live-ui">
@@ -428,9 +343,6 @@
         </div>
 
         <div style="flex:1;"></div>
-
-        <!-- AI runs in background only – no visible toggle -->
-
         <div id="comment-box"></div>
 
         <div class="bottom-bar">
@@ -457,1039 +369,225 @@
     </div>
 
     <script>
-        // CONFIG - WEKA API KEYS ZAKO HAPA (usizishare)
-        const MISTRAL_KEYS = ['ZYnrbSJAyqGhJBl6PgmjoyXESVKrq84q', 'Si1pSiecs294XjaZmbapcd6WSamrGqAy'];
-        const OPENAI_KEY = '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';
-        const GEMINI_KEY = 'AQ.Ab8RN6JN3FOeWnBy7xg7nLSxozXVC9eMrFyhkN-JBmOusSm-Gw';
-        const HF_TOKEN = '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';
-
         let currentV = 1;
         let targetV = 800;
         let mood = 'engagement';
         let myName = 'mwalimu';
-        let myPfp = '';
+        let myPfp = 'https://ui-avatars.com/api/?name=User&background=8B5CF6&color=fff&size=128';
         let isVerified = true;
-        let chatHistory = [];
-        let usedMessages = new Set();
-        let activeUsers = [];
-        let heartInterval = 4000;
         let isLive = false;
-        let aiMode = true;
         let micActive = false;
-        let voiceRecognition = null;
-        let isListening = false;
-        let lastHostMessage = '';
-        let userScrolledUp = false;
-        let commentSpeedMs = 2800;
+        let recognition = null;
+        let commentInterval = null;
 
-        const usedNames = new Set();
-        const usedPics = new Set();
-
-        let autoEngageInterval = null;
-        let aiGenerateInterval = null;
-        let heartSpawnInterval = null;
-        let viewerEngineInterval = null;
-
-        // PROFILE GENERATION - unique + non-face + language by appearance
-        function getBlackPortrait() {
-            const ids = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79];
-            const g = Math.random() > 0.45 ? 'men' : 'women';
-            return 'https://randomuser.me/api/portraits/' + g + '/' + ids[Math.floor(Math.random()*ids.length)] + '.jpg';
-        }
-        function getWhitePortrait() {
-            const ids = [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80];
-            const g = Math.random() > 0.5 ? 'men' : 'women';
-            return 'https://randomuser.me/api/portraits/' + g + '/' + ids[Math.floor(Math.random()*ids.length)] + '.jpg';
-        }
-        const nonFacePool = [
-            'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1552519507-88aa2dfa9fdb?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1530207391611-2d5b83ad4eea?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1494905998402-395d579af36f?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1557142041-c704f6c55d7a?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=100&h=100&fit=crop'
-        ];
-        function getRandomNonFace() {
-            if (Math.random() > 0.55) return nonFacePool[Math.floor(Math.random() * nonFacePool.length)];
-            return 'https://picsum.photos/seed/' + Date.now() + Math.floor(Math.random()*99999) + '/100/100';
-        }
-        function getUniquePic(isBlack) {
-            let pic = null;
-            let tries = 0;
-            while (tries < 90) {
-                if (isBlack) pic = Math.random() > 0.28 ? getBlackPortrait() : getRandomNonFace();
-                else pic = Math.random() > 0.32 ? getWhitePortrait() : getRandomNonFace();
-                if (!usedPics.has(pic)) { usedPics.add(pic); break; }
-                tries++;
-            }
-            if (!pic || usedPics.has(pic)) {
-                pic = 'https://picsum.photos/seed/' + Date.now() + Math.random()*1e6 + '/100/100';
-                usedPics.add(pic);
-            }
-            if (usedPics.size > 4000) {
-                const it = usedPics.values();
-                for (let i = 0; i < 500; i++) { const v = it.next().value; if (v) usedPics.delete(v); }
-            }
-            return pic;
-        }
         const swNames = ['juma','aisha','fatma','said','mussa','neema','baraka','halima','omari','daudi','maryam','yusuph','ali','amina','joyce','kelvin','lucy','idris','anna','salim','sharif','zainab','mariam','hamisi','ramadhani','abedi','khadija','rahma','abdu','rashid','hussein','saida','zara','nuru','khalid','latifa','hassan','ibrahim','salma','ahmed','shukuru','rahema','grace','peter','john','sarah'];
-        const enNames = ['emma','olivia','liam','noah','mason','ethan','sophia','isabella','mia','charlotte','james','benjamin','amelia','harper','evelyn','abigail','ella','logan','oliver','jack','aiden','carter','lucas','michael','daniel','matthew','samuel','david','joseph','andrew','william','elijah','joshua','christopher','grayson','layla','ava','luna','chloe','scarlett','penelope','riley','zoey','nora','lily','ellie','violet','stella','hazel','aurora'];
-        function generateUsername(isBlack) {
-            const pool = isBlack ? swNames : enNames;
-            let base = pool[Math.floor(Math.random() * pool.length)];
-            const suffix = Math.random() > 0.35 ? Math.floor(Math.random() * 999) : '';
-            let name = base + (suffix || '');
-            let tries = 0;
-            while (usedNames.has(name) && tries < 180) {
-                base = pool[Math.floor(Math.random() * pool.length)];
-                name = base + Math.floor(Math.random() * 9999);
-                tries++;
-            }
-            usedNames.add(name);
-            if (usedNames.size > 5000) {
-                const it = usedNames.values();
-                for (let i = 0; i < 600; i++) { const v = it.next().value; if (v) usedNames.delete(v); }
-            }
-            return name;
-        }
-        function createFan() {
-            const isBlack = Math.random() < 0.65;
-            const username = generateUsername(isBlack);
-            const profilePic = getUniquePic(isBlack);
-            const language = isBlack ? (Math.random() < 0.88 ? 'sw' : 'en') : 'en';
-            return { username, profilePic, language, isBlack };
-        }
+        const samplePics = [
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
+        ];
 
-        function getTimeAgo() {
-            const mins = Math.floor(Math.random() * 12) + 1;
-            if (mins < 2) return 'sasa';
-            return mins + 'd';
-        }
-        function isMessageUsed(text) {
-            const clean = text.toLowerCase().replace(/[^\w\s]/g, '').trim();
-            if (usedMessages.has(clean)) return true;
-            for (const h of chatHistory.slice(-18)) {
-                const hClean = h.text.toLowerCase().replace(/[^\w\s]/g, '').trim();
-                if (hClean === clean || (hClean.length > 6 && clean.includes(hClean)) || (clean.length > 6 && hClean.includes(clean))) return true;
-            }
-            return false;
-        }
-        function markMessageUsed(text) {
-            const clean = text.toLowerCase().replace(/[^\w\s]/g, '').trim();
-            usedMessages.add(clean);
-            if (usedMessages.size > 800) {
-                const arr = Array.from(usedMessages);
-                usedMessages = new Set(arr.slice(-400));
-            }
-        }
-        function addComment(username, text, img, isHost = false, replyTo = null, lang = 'sw') {
-            if (!text || text.length < 1) return;
-            if (!isHost && isMessageUsed(text)) return;
-
-            const box = document.getElementById('comment-box');
-            const div = document.createElement('div');
-            div.className = 'comment-item';
-
-            const avatar = document.createElement('img');
-            avatar.className = 'comment-avatar';
-            avatar.src = img;
-            avatar.alt = '';
-            avatar.onerror = function() {
-                this.src = 'https://ui-avatars.com/api/?name=U&background=444&color=fff&size=64';
-            };
-
-            const body = document.createElement('div');
-            body.className = 'comment-body';
-
-            const header = document.createElement('div');
-            header.className = 'comment-header';
-
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'comment-username' + (isHost ? ' host' : '');
-            nameSpan.textContent = username;
-            header.appendChild(nameSpan);
-
-            if (isHost && isVerified) {
-                const verified = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                verified.setAttribute('class', 'verified');
-                verified.setAttribute('viewBox', '0 0 24 24');
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path.setAttribute('d', 'M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z');
-                verified.appendChild(path);
-                header.appendChild(verified);
-            }
-
-            if (isHost) {
-                const badge = document.createElement('span');
-                badge.className = 'comment-badge';
-                badge.textContent = 'Host';
-                header.appendChild(badge);
-            }
-
-
-            const textDiv = document.createElement('div');
-            textDiv.className = 'comment-text';
-            if (replyTo) {
-                const replyTag = document.createElement('span');
-                replyTag.className = 'reply-tag';
-                replyTag.innerHTML = '→ <span>@' + replyTo + '</span>';
-                textDiv.appendChild(replyTag);
-            }
-            textDiv.appendChild(document.createTextNode(text));
-
-            body.appendChild(header);
-            body.appendChild(textDiv);
-            div.appendChild(avatar);
-            div.appendChild(body);
-            box.appendChild(div);
-
-            if (box.children.length > 55) box.removeChild(box.firstChild);
-
-            // Auto-scroll only if user is at bottom
-            if (!userScrolledUp) {
-                box.scrollTop = box.scrollHeight;
-            }
-
-            if (!isHost) markMessageUsed(text);
-            chatHistory.push({ username, text, isHost, replyTo, language: lang, time: Date.now() });
-            if (chatHistory.length > 55) chatHistory.shift();
-        }
-        function spawnHeart(count = 1) {
-            // TikTok / IG style floating hearts – smooth rise + side drift
-            const hearts = ['❤️', '❤️', '❤️', '❤️', '💖', '💗', '💕', '❤️'];
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    const el = document.createElement('div');
-                    el.className = 'float-heart';
-                    // random horizontal drift path
-                    const dx1 = (Math.random() - 0.5) * 30;
-                    const dx2 = dx1 + (Math.random() - 0.5) * 40;
-                    const dx3 = dx2 + (Math.random() - 0.5) * 50;
-                    const dx4 = dx3 + (Math.random() - 0.5) * 40;
-                    el.style.setProperty('--dx1', dx1);
-                    el.style.setProperty('--dx2', dx2);
-                    el.style.setProperty('--dx3', dx3);
-                    el.style.setProperty('--dx4', dx4);
-                    el.style.setProperty('--dur', (2.4 + Math.random() * 1.2) + 's');
-                    el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                    el.style.fontSize = (18 + Math.random() * 16) + 'px';
-                    el.style.right = (10 + Math.random() * 36) + 'px';
-                    el.style.bottom = (68 + Math.random() * 12) + 'px';
-                    document.body.appendChild(el);
-                    setTimeout(() => el.remove(), 4000);
-                }, i * 55);
-            }
-        }
-
-        function showToast(msg, duration) {
-            duration = duration || 1800;
-            const t = document.getElementById('toast');
-            if (!t) return;
-            t.textContent = msg;
-            t.style.display = 'block';
-            t.style.opacity = '1';
-            clearTimeout(t._hideTimer);
-            t._hideTimer = setTimeout(() => {
-                t.style.opacity = '0';
-                setTimeout(() => { t.style.display = 'none'; }, 280);
-            }, duration);
-        }
-
-        function updateViewerCount() {
-            const el = document.getElementById('v-count');
-            if (el) el.innerText = Math.floor(currentV).toLocaleString();
-            updateHeartRate();
-            updateCommentSpeed();
-        }
-        
-        function updateCommentSpeed() {
-            // More viewers = faster comments, few = slow
-            if (currentV < 20) commentSpeedMs = 4200;
-            else if (currentV < 60) commentSpeedMs = 3200;
-            else if (currentV < 150) commentSpeedMs = 2200;
-            else if (currentV < 350) commentSpeedMs = 1400;
-            else if (currentV < 700) commentSpeedMs = 900;
-            else commentSpeedMs = 550;
-        }
-
-        function updateHeartRate() {
-            if (currentV < 15) heartInterval = 5500;
-            else if (currentV < 60) heartInterval = 4200;
-            else if (currentV < 180) heartInterval = 2800;
-            else if (currentV < 400) heartInterval = 1800;
-            else if (currentV < 800) heartInterval = 1100;
-            else heartInterval = 700;
-        }
-        function drawChart() { /* removed */ }
-        function startViewerEngine() {
-            if (viewerEngineInterval) clearInterval(viewerEngineInterval);
-            let phase = 0;
-            let stage = 'crawl'; // crawl → surge → wave
-            let stageStarted = Date.now();
-            let surgeDone = false;
-
-            viewerEngineInterval = setInterval(() => {
-                if (!isLive) return;
-                phase += 0.05 + Math.random() * 0.03;
-                const elapsed = (Date.now() - stageStarted) / 1000;
-                const progress = Math.min(1, currentV / Math.max(1, targetV));
-
-                if (stage === 'crawl') {
-                    // Slow start: +1 to +3 every tick
-                    currentV += Math.floor(Math.random() * 2) + 1;
-                    if (elapsed > 18 + Math.random() * 12 || currentV > targetV * 0.12) {
-                        stage = 'surge';
-                        stageStarted = Date.now();
-                    }
-                } else if (stage === 'surge' && !surgeDone) {
-                    // Sudden jump: big boost over a few ticks
-                    const boost = Math.floor(targetV * (0.08 + Math.random() * 0.12));
-                    currentV += Math.max(8, Math.floor(boost / 4) + Math.floor(Math.random() * 12));
-                    if (elapsed > 6 + Math.random() * 5 || currentV > targetV * 0.45) {
-                        surgeDone = true;
-                        stage = 'wave';
-                        stageStarted = Date.now();
-                    }
-                } else {
-                    // Stable wave: slow climb with occasional jumps and small drops
-                    if (currentV < targetV) {
-                        let step = 1;
-                        if (progress < 0.5) step = Math.floor(Math.random() * 3) + 1;
-                        else if (progress < 0.8) step = Math.floor(Math.random() * 4) + 1;
-                        else step = Math.floor(Math.random() * 3) + 1;
-
-                        // occasional mini-surge
-                        if (Math.random() < 0.06) step += Math.floor(Math.random() * 15) + 5;
-
-                        const wave = Math.floor(Math.sin(phase) * 2);
-                        currentV += Math.max(1, step + wave);
-
-                        if (Math.random() < 0.05) {
-                            currentV = Math.max(1, currentV - Math.floor(Math.random() * 8) - 2);
-                        }
-                    } else {
-                        // around / past target – organic fluctuation
-                        const wave = Math.floor(Math.sin(phase) * 10 + 5 + Math.random() * 8);
-                        if (Math.random() > 0.45) currentV += wave;
-                        else currentV = Math.max(1, currentV - Math.floor(wave * 0.6));
-                    }
+        function previewAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    myPfp = e.target.result;
+                    document.getElementById('pfp-preview').src = myPfp;
                 }
-
-                if (currentV > targetV * 1.55) currentV = targetV * 1.55;
-                if (currentV < 1) currentV = 1;
-                updateViewerCount();
-            }, 2600);
-        }
-
-        async function callAI(prompt) {
-            // Try Mistral keys first
-            for (const key of MISTRAL_KEYS) {
-                try {
-                    const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-                        body: JSON.stringify({
-                            model: 'mistral-small-latest',
-                            messages: [{ role: 'user', content: prompt }],
-                            temperature: 0.95,
-                            max_tokens: 400
-                        })
-                    });
-                    if (res.ok) {
-                        const d = await res.json();
-                        const txt = d.choices?.[0]?.message?.content || '';
-                        if (txt) return txt;
-                    }
-                } catch (e) {}
-            }
-            // OpenAI
-            try {
-                const res = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + OPENAI_KEY },
-                    body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
-                        messages: [{ role: 'user', content: prompt }],
-                        temperature: 0.95,
-                        max_tokens: 400
-                    })
-                });
-                if (res.ok) {
-                    const d = await res.json();
-                    const txt = d.choices?.[0]?.message?.content || '';
-                    if (txt) return txt;
-                }
-            } catch (e) {}
-            // Gemini
-            try {
-                const res = await fetch(
-                    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GEMINI_KEY, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                if (res.ok) {
-                    const d = await res.json();
-                    const txt = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                    if (txt) return txt;
-                }
-            } catch (e) {}
-            // HuggingFace
-            try {
-                const res = await fetch('https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'Bearer ' + HF_TOKEN, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ inputs: prompt, parameters: { max_new_tokens: 280, temperature: 0.9 } })
-                });
-                if (res.ok) {
-                    const d = await res.json();
-                    const txt = d[0]?.generated_text || (typeof d === 'string' ? d : '');
-                    if (txt) return txt;
-                }
-            } catch (e) {}
-            return null;
-        }
-
-async function generateAIChat(trigger = 'auto', triggerText = null) {
-            if (!isLive) return;
-
-            const hostSaid = (triggerText || lastHostMessage || '').trim();
-            const isHostTriggered = (trigger === 'voice' || trigger === 'host' || trigger === 'tap') && hostSaid.length > 1;
-
-            // How many comments to generate
-            let countWanted = isHostTriggered ? (10 + Math.floor(Math.random() * 6)) : (3 + Math.floor(Math.random() * 3));
-            // scale a bit with viewers
-            if (currentV > 200) countWanted = Math.min(14, countWanted + 2);
-            if (currentV > 500) countWanted = Math.min(16, countWanted + 2);
-
-            // Immediate local reactions so user sees response instantly
-            if (isHostTriggered) {
-                smartLocalReplies(hostSaid, Math.min(6, countWanted));
-                if (Math.random() > 0.3) spawnHeart(2 + Math.floor(Math.random() * 4));
-            }
-
-            if (!aiMode) {
-                if (isHostTriggered) smartLocalReplies(hostSaid, countWanted);
-                else fallbackComments(countWanted);
-                return;
-            }
-
-            let context = '';
-            chatHistory.slice(-10).forEach(m => {
-                const speaker = m.isHost ? 'HOST' : m.username;
-                context += speaker + ': ' + m.text + '\n';
-            });
-
-            let focus = '';
-            if (hostSaid) {
-                focus = 'HOST JUST SAID: "' + hostSaid + '".\nEvery comment MUST directly react to what the host said. Answer questions, react to statements, follow commands. Be natural.';
-            }
-
-            const prompt = `You generate realistic Instagram Live viewer comments.
-Mood: ${mood}
-${focus}
-Recent:
-${context || 'Live just started.'}
-
-Rules:
-- Output EXACTLY ${countWanted} unique short comments (3-14 words each).
-- Mix Swahili (street/casual) and English.
-- African-style names → Swahili. European-style names → English only.
-- Sound like real IG Live people: slang, emoji, short, imperfect.
-- If host asked a question → answer it.
-- If host asked for hearts/love/mioyo → say you sent hearts or react with love.
-- If host said a statement → react, agree, joke, or ask follow-up.
-- Never repeat.
-- Only 30% of comments should have reply_to host. Others just speak freely.
-- Output ONLY valid JSON array, nothing else:
-[{"u":"username","m":"message","lang":"sw","reply_to":null}]`;
-
-            try {
-                const response = await callAI(prompt);
-                if (!response) {
-                    if (isHostTriggered) smartLocalReplies(hostSaid, countWanted);
-                    else fallbackComments(countWanted);
-                    return;
-                }
-                const match = response.match(/\[[\s\S]*\]/);
-                if (!match) {
-                    if (isHostTriggered) smartLocalReplies(hostSaid, countWanted);
-                    else fallbackComments(countWanted);
-                    return;
-                }
-                const comments = JSON.parse(match[0]);
-                if (!Array.isArray(comments) || comments.length === 0) {
-                    if (isHostTriggered) smartLocalReplies(hostSaid, countWanted);
-                    else fallbackComments(countWanted);
-                    return;
-                }
-                comments.forEach((c, i) => {
-                    setTimeout(() => {
-                        if (!isLive) return;
-                        let user = activeUsers.find(u => u.username === c.u);
-                        if (!user) {
-                            const looksBlack = (c.lang === 'sw') || Math.random() < 0.65;
-                            const fan = createFan();
-                            // force language consistency
-                            if (!looksBlack) fan.language = 'en';
-                            user = {
-                                username: c.u || fan.username,
-                                profilePic: fan.profilePic,
-                                language: (c.lang === 'en' || !looksBlack) ? 'en' : 'sw',
-                                isBlack: looksBlack
-                            };
-                            activeUsers.push(user);
-                        }
-                        let msg = (c.m || '').trim();
-                        if (!msg || isMessageUsed(msg)) return;
-                        // force English-only for non-black
-                        if (!user.isBlack && user.language === 'en') {
-                            // ok
-                        }
-                        const replyTo = (c.reply_to === 'host' || c.reply_to === myName) ? (Math.random() > 0.4 ? myName : null) : (c.reply_to || null);
-                        addComment(user.username, msg, user.profilePic, false, replyTo, user.language);
-                        if (Math.random() > 0.35) spawnHeart(1);
-                    }, i * (180 + Math.random() * 220) + 80);
-                });
-            } catch (e) {
-                console.warn('AI parse error', e);
-                if (isHostTriggered) smartLocalReplies(hostSaid, countWanted);
-                else fallbackComments(countWanted);
+                reader.readAsDataURL(file);
             }
         }
 
-        // Smart local replies that actually react to what host said (works even if AI fails)
-        function smartLocalReplies(hostText, count) {
-            if (!hostText || !isLive) return;
-            const t = hostText.toLowerCase();
-            let poolSw = [];
-            let poolEn = [];
-
-            // Detect intent
-            const isQuestion = /\?|nani|nini|wapi|lini|kwa nini|how|what|where|when|who|why|je\b|gani/.test(t);
-            const wantsHearts = /mioyo|heart|love|❤️|piga mioyo|tuma|like|emoji/.test(t);
-            const isGreeting = /habari|hello|hi\b|mambo|vipi|salamu|good morning|good evening/.test(t);
-            const isAmen = /amen|ameen|amin/.test(t);
-
-            if (wantsHearts) {
-                poolSw = ['Nimetuma ❤️❤️', 'Mioyo iko 🔥', '❤️❤️❤️', 'Love love!', 'Nimepiga mioyo!', '💖 kwa wewe', 'Tumepeleka ❤️', 'Hearts sent!'];
-                poolEn = ['Sent hearts ❤️', 'Love you!', '❤️❤️❤️', 'Hearts going!', 'Here you go 💖', 'Liking this!'];
-                spawnHeart(6 + Math.floor(Math.random() * 8));
-            } else if (isGreeting) {
-                poolSw = ['Mambo vipi!', 'Poa sana!', 'Habari host!', 'Tuko live 🔥', 'Karibu!', 'Nzuri!', 'Vipi wewe?', 'Tupo hapa!'];
-                poolEn = ['Hey!', 'Hello!', 'What\'s up!', 'We here!', 'Good vibes!', 'Hi host!'];
-            } else if (isAmen) {
-                poolSw = ['Amen! 🙏', 'Amen 🔥', 'Ameeeen!', 'Amen ❤️', '🙏 Amen'];
-                poolEn = ['Amen!', 'Amen 🙏', 'Yes!', 'Amen 🔥'];
-            } else if (isQuestion) {
-                poolSw = [
-                    'Nadhani ndiyo!', 'Sijui kwa uhakika...', 'Ndio kweli!', 'Labda...', 'Naelewa swali!',
-                    'Swali zuri!', 'Mimi nasema ndiyo', 'Sijui, wewe je?', 'Hiyo ni deep!', 'Tueleze zaidi!',
-                    'Jibu langu ni ndiyo', 'Inategemea...', 'Kweli kabisa!', 'Ngoja nifikirie', 'Hiyo story noma!'
-                ];
-                poolEn = [
-                    'I think yes!', 'Not sure...', 'True!', 'Maybe!', 'Good question!',
-                    'Tell us more!', 'I agree!', 'Depends...', 'For real?', 'Interesting!'
-                ];
-            } else {
-                // General reaction to statement
-                poolSw = [
-                    'Kweli kabisa!', 'Noma sana!', '🔥🔥', 'Umeongea!', 'Nakubali!',
-                    'Hiyo ni ukweli!', 'Tisha!', 'Level!', 'Safi!', 'Naelewa!',
-                    'Endelea!', 'Story nzuri!', 'Big up!', 'Respect!', '💯',
-                    'Aisee!', 'Heshima!', 'Umetisha!', 'Tuko pamoja!', 'Inatosha!'
-                ];
-                poolEn = [
-                    'So true!', 'Facts!', '🔥🔥', 'You said it!', 'Agree!',
-                    'Real talk!', 'This hits!', 'Respect!', '💯', 'Keep going!',
-                    'Wow!', 'Amazing!', 'Love this!', 'Tell more!', 'Yes!'
-                ];
-            }
-
-            // Add some host-text echoes for realism
-            const short = hostText.length > 40 ? hostText.slice(0, 36) + '...' : hostText;
-            poolSw.push('"' + short + '" 🔥');
-            poolSw.push('Amesema: ' + short.split(' ').slice(0, 4).join(' ') + '...');
-            poolEn.push('"' + short + '" 🔥');
-
-            const used = new Set();
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    if (!isLive) return;
-                    const fan = createFan();
-                    const pool = fan.language === 'sw' ? poolSw : poolEn;
-                    let msg = pool[Math.floor(Math.random() * pool.length)];
-                    let tries = 0;
-                    while ((used.has(msg) || isMessageUsed(msg)) && tries < 20) {
-                        msg = pool[Math.floor(Math.random() * pool.length)];
-                        tries++;
-                    }
-                    used.add(msg);
-                    if (isMessageUsed(msg) && tries >= 20) return;
-                    activeUsers.push(fan);
-                    addComment(fan.username, msg, fan.profilePic, false, (Math.random() > 0.55 ? myName : null), fan.language);
-                    if (Math.random() > 0.4) spawnHeart(1);
-                }, i * (200 + Math.random() * 280) + 100);
-            }
-        }
-
-
-        const msgs_sw = ['🔥🔥','Nakubali!','Aisee!','Nice!','❤️','Noma sana!','Heshima!','Kali!','Vibe nzuri!','Hatari!','Big up!','Washa moto!','Oyaaa!','Safii!','Tunajongea!','🔊🔊','Vibe imekolea!','Choma!','Tisha!','Dope!','E bwana!','Heavy!','🇹🇿','Respect!','Umetisha!','Level nyingine!','Mambo yameiva!','Legendary!','Salute!','💯','Kazi safi!','Classic!','Oya oya!','Shout out!','Killing it!','Chukua tano!','Ongea!','Chafua!','No sleep!','Mix imenyooka!','Mzuka umepanda!','Bongo!','Tuko live!','Dope selection!','Keep rolling!','Much love!','Komaa!','Chinja!','This is lit!','Haina kufeli!','Heshima kwako!','Amen!','Hallelujah!','🙌','👏','🔥🔥🔥','❤️‍🔥','Safi sana!','Kazi nzuri!','Mambo moto!','Tz up!','Pure talent!','On repeat!','Naelewa!','🔊','Best!','Naam!','Imeweza!','Full shangwe!','Respect bro!','Inatosha!','Classic vibe!','Piga kelele!','Smooth!','Acha!','Burudani!','Hadi raha!','Moshi!','Kiboko!','Nishashika!','Hatari mzee!','Noma tupu!','Zima taa!','Oyeee!','Bongo fleva!','Homa ya jiji!','Keep pushing!','Weka mbali!','Mnyama!','My favorite!','Maumivu!','Hii ni hatari!','Umeweza sana!','Tuko pamoja!','Bana!','Sasa hivi!','True!','Hii story noma!','Endelea!','Ngoja nikuulize...','Unaenda wapi?','Hii ni real!','Mimi pia!','Sina maneno!','Kila kitu poa!','Unanishtua!'];
-        const msgs_en = ['🔥🔥','Agreed!','Wow!','Nice!','❤️','Crazy!','Respect!','Hard!','Great vibe!','Dangerous!','Big up!','Turn up!','Smooth!','We jammin!','🔊🔊','Vibe strong!','Burn it!','Amazing!','This is fire!','Dope!','Oh man!','Heavy!','Respect!','You killed it!','Next level!','Things ripe!','Legendary!','Salute!','💯','Clean work!','Classic!','Oya!','Shout out!','Killing it!','Take five!','Talk!','No sleep!','Mix straight!','Spirit up!','We live!','Dope selection!','Keep rolling!','Much love!','This is lit!','Never fails!','Respect boss!','Amen!','Hallelujah!','🙌','👏','🔥🔥🔥','❤️‍🔥','So clean!','Great work!','Hot stuff!','Pure talent!','On repeat!','I feel you!','🔊','Best ever!','Yeah!','Well done!','Full vibe!','Respect bro!','Enough!','Classic!','Shout!','Smooth!','Entertainment!','Feeling good!','Smoke!','Got it!','Pure madness!','Lights off!','Dope!','City fever!','Keep pushing!','Stand back!','Wild!','My favorite!','This is dangerous!','You are crazy!','I love this!','Tell us more!','What happened next?','No way!','For real?','I was there too!','Same here!','Wait what?','Say that again!','You good?','This hits different!','Broooo','Facts!'];
-        let lastFallbackIndexSw = 0;
-        let lastFallbackIndexEn = 0;
-        function fallbackEnglish() {
-            let idx = (lastFallbackIndexEn + Math.floor(Math.random() * 4) + 1) % msgs_en.length;
-            let msg = msgs_en[idx];
-            let tries = 0;
-            while (isMessageUsed(msg) && tries < 40) {
-                idx = (idx + 1) % msgs_en.length;
-                msg = msgs_en[idx];
-                tries++;
-            }
-            lastFallbackIndexEn = (idx + 1) % msgs_en.length;
-            return msg;
-        }
-        function fallbackComments(count = 3) {
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    if (!isLive) return;
-                    const fan = createFan();
-                    let msg;
-                    if (fan.language === 'sw') {
-                        let idx = (lastFallbackIndexSw + Math.floor(Math.random() * 5) + 1) % msgs_sw.length;
-                        msg = msgs_sw[idx];
-                        let tries = 0;
-                        while (isMessageUsed(msg) && tries < 35) {
-                            idx = (idx + 1) % msgs_sw.length;
-                            msg = msgs_sw[idx];
-                            tries++;
-                        }
-                        lastFallbackIndexSw = (idx + 1) % msgs_sw.length;
-                    } else {
-                        msg = fallbackEnglish();
-                    }
-                    if (isMessageUsed(msg)) return;
-                    const user = { username: fan.username, profilePic: fan.profilePic, language: fan.language, isBlack: fan.isBlack };
-                    activeUsers.push(user);
-                    let replyTo = null;
-                    if (Math.random() > 0.55 && chatHistory.length > 1) {
-                        const others = chatHistory.filter(c => c.username !== fan.username);
-                        if (others.length > 0) {
-                            const last = others[others.length - 1];
-                            replyTo = last.isHost ? myName : last.username;
-                        }
-                    }
-                    addComment(user.username, msg, user.profilePic, false, replyTo, fan.language);
-                    if (Math.random() > 0.35) spawnHeart(1);
-                }, i * 650 + 180 + Math.random() * 400);
-            }
-        }
-        function triggerAmen() {
-            if (!isLive) return;
-            const amenSw = ['Amen! 🙏','Amen! 🔥','Amen! ❤️','Amen! 🙌','Ameeeen!','AMEN!','Amen 🙏🔥','Amen! Hallelujah!','🙏 Amen!','Amen! 🙌🔥','Ameeen! ❤️','AMEN 🙌'];
-            const amenEn = ['Amen! 🙏','Amen! 🔥','Amen! ❤️','Amen! 🙌','Amen!','AMEN!','Amen 🙏🔥','Hallelujah!','🙏 Amen!','Yes Lord!','Amen sister!','Facts 🙏'];
-            const count = Math.min(12, Math.floor(currentV / 90) + 3);
-            const usedSet = new Set();
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    if (!isLive) return;
-                    let fan;
-                    let tries = 0;
-                    do { fan = createFan(); tries++; } while (usedSet.has(fan.username) && tries < 25);
-                    usedSet.add(fan.username);
-                    const pool = fan.language === 'sw' ? amenSw : amenEn;
-                    const msg = pool[Math.floor(Math.random() * pool.length)];
-                    if (isMessageUsed(msg) && Math.random() > 0.3) return;
-                    const user = { username: fan.username, profilePic: fan.profilePic, language: fan.language, isBlack: fan.isBlack };
-                    activeUsers.push(user);
-                    let replyTo = null;
-                    if (Math.random() > 0.45) {
-                        const poolH = chatHistory.filter(c => c.username !== fan.username);
-                        if (poolH.length > 0) {
-                            const pick = poolH[Math.floor(Math.random() * poolH.length)];
-                            replyTo = pick.isHost ? myName : pick.username;
-                        }
-                    }
-                    addComment(user.username, msg, user.profilePic, false, replyTo, fan.language);
-                    spawnHeart(1 + Math.floor(Math.random() * 2));
-                }, i * 160 + 60);
-            }
-            setTimeout(() => {
-                if (!isLive) return;
-                const hostMsg = ['Amen! 🙏','Asanteni sana! ❤️','Mungu awabariki!','🙌🙌','Asante familia!'];
-                addComment(myName, hostMsg[Math.floor(Math.random() * hostMsg.length)], document.getElementById('live-pfp').src, true, null, 'sw');
-                spawnHeart(3);
-            }, 280);
-            setTimeout(() => {
-                if (isLive && aiMode) generateAIChat('amen', 'Amen');
-            }, 900);
-        }
-        function startVoiceRecognition() {
-            try {
-                const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!Speech) {
-                    showToast('🔇 Browser haiauni sauti', 2000);
-                    return;
-                }
-                // stop previous if any
-                try { if (voiceRecognition) voiceRecognition.stop(); } catch (e) {}
-
-                voiceRecognition = new Speech();
-                // Single language code only (comma breaks many browsers)
-                // Prefer Swahili, fallback handled by browser
-                voiceRecognition.lang = (navigator.language || '').startsWith('sw') ? 'sw-TZ' : 'en-US';
-                voiceRecognition.continuous = true;
-                voiceRecognition.interimResults = true;
-                voiceRecognition.maxAlternatives = 1;
-
-                let interimBuffer = '';
-                let interimTimer = null;
-
-                voiceRecognition.onresult = (e) => {
-                    for (let i = e.resultIndex; i < e.results.length; i++) {
-                        const raw = e.results[i][0].transcript.trim();
-                        if (!raw) continue;
-                        const transcript = raw.toLowerCase();
-
-                        if (!e.results[i].isFinal) {
-                            // interim – wait a moment then treat as final if long enough
-                            interimBuffer = transcript;
-                            clearTimeout(interimTimer);
-                            interimTimer = setTimeout(() => {
-                                if (interimBuffer && interimBuffer.length > 2 && micActive && isLive) {
-                                    handleHostSpeech(interimBuffer);
-                                    interimBuffer = '';
-                                }
-                            }, 1400);
-                            continue;
-                        }
-
-                        // Final result
-                        clearTimeout(interimTimer);
-                        interimBuffer = '';
-                        console.log('🎤 Voice final:', transcript);
-                        handleHostSpeech(transcript);
-                    }
-                };
-
-                voiceRecognition.onerror = (e) => {
-                    console.warn('Voice error:', e.error);
-                    if (e.error === 'not-allowed') {
-                        showToast('🔇 Ruhusu microphone kwenye browser', 2500);
-                        micActive = false;
-                    } else if (e.error === 'language-not-supported') {
-                        try {
-                            voiceRecognition.lang = 'en-US';
-                            voiceRecognition.start();
-                        } catch (err) {}
-                    } else if (e.error === 'no-speech') {
-                        // ignore
-                    } else if (e.error === 'network') {
-                        showToast('🌐 Network error (sauti)', 1800);
-                    } else if (e.error === 'aborted') {
-                        // ignore
-                    }
-                };
-
-                // Critical: restart when it ends (Chrome stops continuous after a while)
-                voiceRecognition.onend = () => {
-                    if (micActive && isLive) {
-                        try {
-                            voiceRecognition.start();
-                        } catch (e) {
-                            setTimeout(() => {
-                                if (micActive && isLive) {
-                                    try { voiceRecognition.start(); } catch (e2) {}
-                                }
-                            }, 400);
-                        }
-                    }
-                };
-
-                voiceRecognition.start();
-                isListening = true;
-                console.log('🎤 Voice recognition started (sw-TZ)');
-            } catch (e) {
-                console.warn('Voice init error:', e);
-                showToast('🔇 Sauti haitumiki', 2000);
-            }
-        }
-
-        // Central handler: host spoke (voice or we route typed text here too)
-        function handleHostSpeech(transcript) {
-            if (!isLive || !transcript || transcript.length < 1) return;
-            const t = transcript.toLowerCase().trim();
-            lastHostMessage = t;
-
-            // Commands
-            if (t.includes('amen') || t.includes('amén') || t.includes('ameen') || t.includes('amin')) {
-                triggerAmen();
-                showToast('Amen! 🙏', 1200);
-                return;
-            }
-            if (t.includes('piga mioyo') || t.includes('tuma mioyo') || t.includes('send hearts') ||
-                t.includes('hearts') || t.includes('tuma love') || t.includes('piga like') ||
-                t.includes('emoji') || (t.includes('like') && t.length < 20)) {
-                manualTap();
-                spawnHeart(8 + Math.floor(Math.random() * 10));
-                // flood replies about hearts
-                generateAIChat('voice', t);
-                return;
-            }
-
-            // Do NOT put spoken words into comments (like real IG Live – you talk on camera)
-            // Only flood viewer replies
-            generateAIChat('voice', t);
-        }
-
-function stopVoiceRecognition() {
-            if (voiceRecognition) {
-                try { voiceRecognition.stop(); } catch (e) {}
-                isListening = false;
-            }
-        }
-        function toggleMic() {
-            if (!isLive) return;
-            micActive = !micActive;
-            // Mic button stays same color – no .active class
-            if (micActive) {
-                startVoiceRecognition();
-                showToast('🎤 Mic imeamilishwa', 1600);
-            } else {
-                stopVoiceRecognition();
-                showToast('Mic imezimwa', 1400);
-            }
-        }
-
-        let aiModeSetup = true;
-        function toggleAISetup() {
-            aiModeSetup = !aiModeSetup;
-            document.getElementById('ai-toggle-setup').classList.toggle('active');
-            if (isLive) {
-                aiMode = aiModeSetup;
-                const _ail = document.getElementById('ai-toggle-live'); if (_ail) _ail.classList.toggle('active', aiMode);
-            }
-        }
-        function toggleAILive() {
-            aiMode = !aiMode;
-            const _ail2 = document.getElementById('ai-toggle-live'); if (_ail2) _ail2.classList.toggle('active');
-            aiModeSetup = aiMode;
-            document.getElementById('ai-toggle-setup').classList.toggle('active', aiMode);
-        }
-        function sendMyComment() {
-            const inp = document.getElementById('my-comment');
-            const text = inp.value.trim();
-            if (!text || !isLive) return;
-            inp.value = '';
-            const pfp = document.getElementById('live-pfp')?.src || '';
-            // Typed comments DO appear (only speech stays off comments)
-            addComment(myName, text, pfp, true, null, 'sw');
-            lastHostMessage = text.toLowerCase();
-            currentV += Math.floor(Math.random() * 3) + 1;
-            updateViewerCount();
-            // Flood viewer replies
-            generateAIChat('host', text);
-        }
-
-function manualTap() {
-            if (!isLive) return;
-            const count = Math.min(14, Math.floor(currentV / 90) + 2);
-            spawnHeart(count);
-            currentV += Math.floor(Math.random() * 4) + 1;
-            updateViewerCount();
-            if (aiMode && Math.random() > 0.55) generateAIChat('tap');
-        }
-        function autoEngagement() {
-            if (!isLive) return;
-            if (Math.random() < 0.18) spawnHeart(1);
-            if (Math.random() > 0.62) fallbackComments(1);
-            if (aiMode && Math.random() > 0.82 && chatHistory.length > 3) generateAIChat('auto');
-        }
-        async function startCamera() {
-            const video = document.getElementById('video-feed');
-            if (!video) return;
-            try {
-                if (video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } },
-                    audio: false
-                });
-                video.srcObject = stream;
-                video.setAttribute('playsinline', true);
-                video.setAttribute('autoplay', true);
-                await video.play();
-            } catch (err) {
-                console.error('Camera error:', err);
-                if (video) {
-                    video.style.background = '#1a1a2e';
-                    video.style.transform = 'none';
-                }
-            }
-        }
-        function goFullscreen() {
-            const el = document.documentElement;
-            try {
-                if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-                else if (el.msRequestFullscreen) el.msRequestFullscreen();
-            } catch (e) {}
-        }
-        function exitLive() {
-            if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-            else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
-            else if (document.msFullscreenElement) document.msExitFullscreen();
-            if (isLive) {
-                isLive = false;
-                if (autoEngageInterval) { clearInterval(autoEngageInterval); clearTimeout(autoEngageInterval); }
-                if (aiGenerateInterval) clearInterval(aiGenerateInterval);
-                if (heartSpawnInterval) clearInterval(heartSpawnInterval);
-                if (viewerEngineInterval) clearInterval(viewerEngineInterval);
-                stopVoiceRecognition();
-                micActive = false;
-                // mic stays neutral color
-                
-                document.getElementById('live-ui').style.display = 'none';
-                document.getElementById('setup-screen').style.display = 'flex';
-                
-                const video = document.getElementById('video-feed');
-                if (video && video.srcObject) {
-                    video.srcObject.getTracks().forEach(t => t.stop());
-                    video.srcObject = null;
-                }
-                
-                
-            }
-        }
         async function startLive() {
-            myName = (document.getElementById('user-in').value || 'mwalimu').trim().replace(/[^a-zA-Z0-9_.]/g, '') || 'mwalimu';
-            targetV = parseInt(document.getElementById('target-in').value) || 800;
-            mood = document.getElementById('topic-in').value || 'engagement';
+            myName = document.getElementById('user-in').value || 'mwalimu';
             isVerified = document.getElementById('verified-in').checked;
-            aiMode = aiModeSetup;
-            const pfpPreview = document.getElementById('pfp-preview');
-            if (pfpPreview && pfpPreview.src) myPfp = pfpPreview.src;
+            mood = document.getElementById('topic-in').value;
+            targetV = parseInt(document.getElementById('target-in').value) || 800;
+
+            document.getElementById('live-user').textContent = myName;
+            document.getElementById('live-pfp').src = myPfp;
+            if (isVerified) {
+                document.getElementById('verified-icon').classList.remove('hidden');
+            } else {
+                document.getElementById('verified-icon').classList.add('hidden');
+            }
+
+            // Fungua Kamera
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
+                    audio: true 
+                });
+                const videoElement = document.getElementById('video-feed');
+                videoElement.srcObject = stream;
+            } catch (err) {
+                alert('Imeshindwa kufungua kamera. Tafadhali ruhusu matumizi ya kamera (Camera Permission).');
+                console.error(err);
+                return;
+            }
+
             document.getElementById('setup-screen').style.display = 'none';
             document.getElementById('live-ui').style.display = 'flex';
             isLive = true;
-            document.getElementById('live-user').textContent = myName;
-            const livePfp = document.getElementById('live-pfp');
-            if (myPfp) livePfp.src = myPfp;
-            else livePfp.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(myName) + '&background=8B5CF6&color=fff&size=128';
-            const verifiedIcon = document.getElementById('verified-icon');
-            if (isVerified) verifiedIcon.classList.remove('hidden');
-            else verifiedIcon.classList.add('hidden');
-            
-            const _ail = document.getElementById('ai-toggle-live'); if (_ail) _ail.classList.toggle('active', aiMode);
-            await startCamera();
-            goFullscreen();
-            currentV = 1;
-            
-            chatHistory = [];
-            usedMessages.clear();
-            activeUsers = [];
-            lastHostMessage = '';
-            document.getElementById('comment-box').innerHTML = '';
-            
-            startViewerEngine();
-            if (autoEngageInterval) { clearInterval(autoEngageInterval); clearTimeout(autoEngageInterval); }
-            function scheduleEngage() {
-                if (!isLive) return;
-                autoEngagement();
-                autoEngageInterval = setTimeout(scheduleEngage, Math.max(500, commentSpeedMs + (Math.random() * 400 - 200)));
-            }
-            scheduleEngage();
-            if (aiGenerateInterval) clearInterval(aiGenerateInterval);
-            aiGenerateInterval = setInterval(() => {
-                if (isLive && chatHistory.length > 2 && aiMode) generateAIChat('auto', lastHostMessage || null);
-            }, Math.max(8000, 16000 - Math.min(8000, currentV * 8)) + Math.random() * 5000);
-            if (heartSpawnInterval) clearInterval(heartSpawnInterval);
-            heartSpawnInterval = setInterval(() => {
-                if (isLive && Math.random() < 0.16) spawnHeart(Math.floor(Math.random() * 2) + 1);
-            }, 3200);
-            setTimeout(() => {
-                if (isLive) {
-                    for (let i = 0; i < 5; i++) setTimeout(() => fallbackComments(1), i * 700 + 300);
-                }
-            }, 900);
-            updateViewerCount();
-            micActive = false;
-            // mic stays neutral color
-            
-            console.log('🎥 Live started – Real simulator mode');
-            console.log('💡 Sema "Amen" au bonyeza A');
-            console.log('🎤 Bonyeza mic (M) kwa sauti – kila unachosema watajibu');
-        }
-        document.getElementById('pfp-input').onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = () => {
-                const preview = document.getElementById('pfp-preview');
-                if (preview) preview.src = reader.result;
-                myPfp = reader.result;
-            };
-            reader.readAsDataURL(file);
-        };
-        document.addEventListener('click', (e) => {
-            const tag = e.target.tagName;
-            if (['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA'].includes(tag)) return;
-            if (e.target.closest('#comment-box')) return; // allow scroll / select comments
-            if (e.target.closest('.bottom-bar')) return;
-            if (e.target.closest('.top-bar')) return;
-            if (isLive) manualTap();
-        });
-        document.addEventListener('keydown', (e) => {
-            if ((e.key === 'a' || e.key === 'A') && isLive && !e.target.closest('input')) triggerAmen();
-            if (e.key === 'Escape' && isLive) exitLive();
-            if (e.key === 'm' || e.key === 'M') {
-                if (isLive && !e.target.closest('input')) toggleMic();
-            }
-        });
-        
-        // Comment scroll: pause auto-scroll when user scrolls up
-        (function setupCommentScroll() {
-            function bind() {
-                const box = document.getElementById('comment-box');
-                if (!box) return;
-                box.addEventListener('scroll', () => {
-                    const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 48;
-                    userScrolledUp = !atBottom;
-                }, { passive: true });
-                // touch move inside comments should not be blocked
-                box.addEventListener('touchstart', () => {}, { passive: true });
-                box.addEventListener('touchmove', () => {}, { passive: true });
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', bind);
-            } else {
-                bind();
-            }
-        })();
 
-        console.log('📱 Instagram Live Real Simulator');
-        console.log('💡 Sema "Amen" au bonyeza "A"');
-        console.log('🎤 Bonyeza mic (M) – kila unachosema live watajibu kama story');
-        document.getElementById('user-in').value = 'mwalimu';
-        
-        
+            // Anzisha viewers na comments za AI
+            startViewerEngine();
+            startAIComments();
+        }
+
+        function exitLive() {
+            isLive = false;
+            const videoElement = document.getElementById('video-feed');
+            if (videoElement.srcObject) {
+                videoElement.srcObject.getTracks().forEach(track => track.stop());
+            }
+            location.reload();
+        }
+
+        function startViewerEngine() {
+            setInterval(() => {
+                if (!isLive) return;
+                if (currentV < targetV) {
+                    currentV += Math.floor(Math.random() * 5) + 1;
+                    if (currentV > targetV) currentV = targetV;
+                    document.getElementById('v-count').textContent = currentV;
+                }
+            }, 1000);
+        }
+
+        function addComment(username, text, isHost = false, replyTo = '') {
+            const box = document.getElementById('comment-box');
+            const item = document.createElement('div');
+            item.className = 'comment-item';
+
+            const avatarUrl = isHost ? myPfp : samplePics[Math.floor(Math.random() * samplePics.length)];
+            
+            let replyHtml = replyTo ? `<span class="reply-tag">@<span>${replyTo}</span></span>` : '';
+
+            item.innerHTML = `
+                <img class="comment-avatar" src="${avatarUrl}" alt="">
+                <div class="comment-body">
+                    <div class="comment-header">
+                        <span class="comment-username ${isHost ? 'host' : ''}">${username}</span>
+                        ${isHost ? '<span class="comment-badge">HOST</span>' : ''}
+                    </div>
+                    <div class="comment-text">${replyHtml}${text}</div>
+                </div>
+            `;
+            box.appendChild(item);
+            box.scrollTop = box.scrollHeight;
+
+            // Futa maoni ya zamani yasijaze kumbukumbu
+            if (box.children.length > 30) {
+                box.removeChild(box.firstChild);
+            }
+        }
+
+        function sendMyComment() {
+            const input = document.getElementById('my-comment');
+            const val = input.value.trim();
+            if (!val) return;
+            addComment(myName, val, true);
+            input.value = '';
+
+            // AI inajibu baada ya wewe kuongea au kuandika
+            setTimeout(() => {
+                generateAIResponse(val);
+            }, 1000);
+        }
+
+        function startAIComments() {
+            const generalComments = {
+                engagement: ["Mko vizuri sana leo! 🔥", "Tunaangalia ukiwa wapi hapo?", "Hakika hii ndiyo live bora ya leo!", "Mambo yako safi kabisa bro."],
+                angry: ["Mbona unajiamini sana hivyo? 😂", "Watu wanasema ukweli lakini hawataki kusikia.", "Achana nao hao wanajifanya wanajua."],
+                story: ["Hii stori tamu sana, endelea tunasikiliza!", "Aisee haijawahi kutokea hii 😂", "Unawezaje kujizuia kwenye hili eneo?"],
+                sales: ["Bei gani hiyo mkuu niagize?", "Tunawezaje kupata huduma hii?", "Nipe namba nikulipie sasa hivi."]
+            };
+
+            commentInterval = setInterval(() => {
+                if (!isLive) return;
+                const pool = generalComments[mood] || generalComments.engagement;
+                const randomText = pool[Math.floor(Math.random() * pool.length)];
+                const randomUser = swNames[Math.floor(Math.random() * swNames.length)] + Math.floor(Math.random() * 99);
+                addComment(randomUser, randomText);
+            }, 3000);
+        }
+
+        function generateAIResponse(userText) {
+            const responses = [
+                `Kweli kabisa nakubaliana na wewe kwenye hili! 🔥`,
+                `Hahah hatari sana hiyo, nakuelewa mkuu.`,
+                `Watu wanashangaa lakini ndio ukweli ulivyo.`,
+                `Safi sana! Endelea kutujuza zaidi.`
+            ];
+            const randomUser = swNames[Math.floor(Math.random() * swNames.length)] + Math.floor(Math.random() * 99);
+            const randomResp = responses[Math.floor(Math.random() * responses.length)];
+            addComment(randomUser, randomResp, false, myName);
+        }
+
+        function manualTap() {
+            const heart = document.createElement('div');
+            heart.className = 'float-heart';
+            heart.innerHTML = '❤️';
+            heart.style.setProperty('--dx1', (Math.random() * 60 - 30));
+            heart.style.setProperty('--dx2', (Math.random() * 80 - 40));
+            heart.style.setProperty('--dx3', (Math.random() * 100 - 50));
+            heart.style.setProperty('--dx4', (Math.random() * 120 - 60));
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2800);
+        }
+
+        function toggleMic() {
+            const micBtn = document.getElementById('mic-btn');
+            micActive = !micActive;
+            
+            if (micActive) {
+                micBtn.classList.add('active');
+                showToast('Kipaza sauti kimewashwa (Listening...)');
+                
+                // Anzisha Speech Recognition kama ipo kwenye browser
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    recognition = new SpeechRecognition();
+                    recognition.lang = 'sw-TZ'; // Swahili
+                    recognition.continuous = true;
+                    recognition.interimResults = false;
+
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[event.results.length - 1][0].transcript;
+                        document.getElementById('my-comment').value = transcript;
+                        sendMyComment();
+                    };
+
+                    recognition.onerror = function(e) {
+                        console.error('Speech recognition error', e);
+                    };
+
+                    try {
+                        recognition.start();
+                    } catch(e) { console.log(e); }
+                }
+            } else {
+                micBtn.classList.remove('active');
+                showToast('Kipaza sauti kimezimwa');
+                if (recognition) {
+                    recognition.stop();
+                }
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            t.style.opacity = '1';
+            setTimeout(() => {
+                t.style.opacity = '0';
+                setTimeout(() => t.style.display = 'none', 250);
+            }, 2000);
+        }
     </script>
 </body>
 </html>
