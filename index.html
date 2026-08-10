@@ -77,11 +77,12 @@
             transition: all 0.15s; font-size: 18px; border: 1px solid rgba(255,255,255,0.06);
         }
         .close-btn:active { transform: scale(0.88); }
+        
         #comment-box {
             flex: 1;
             max-height: 52vh;
             min-height: 140px;
-            overflow-y: scroll !important;
+            overflow-y: auto !important;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -89,7 +90,7 @@
             padding: 6px 2px 4px 2px;
             mask-image: linear-gradient(to top, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%);
             -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%);
-            scroll-behavior: auto;
+            scroll-behavior: smooth;
             gap: 2px;
             -webkit-overflow-scrolling: touch;
             pointer-events: auto !important;
@@ -101,9 +102,19 @@
             animation: commentIn 0.3s cubic-bezier(0.12, 1, 0.2, 1) forwards;
             transform-origin: bottom left; max-width: 92%;
         }
+        /* Hali ya siri (invisible kwa watazamaji wa live lakini AI inaisoma) */
+        .comment-item.stealth-comment {
+            opacity: 0.15 !important;
+            filter: blur(1px);
+            transition: opacity 0.3s;
+        }
+        .comment-item.stealth-comment:hover {
+            opacity: 0.6 !important;
+        }
+
         @keyframes commentIn {
             0% { transform: translateY(16px) scale(0.96); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(0) scale(1); opacity: var(--final-opacity, 1); }
         }
         .comment-avatar {
             width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
@@ -268,8 +279,10 @@
             box-shadow: 0 8px 30px rgba(0,149,246,0.15);
         }
         .btn-start:active { transform: scale(0.97); }
-        #comment-box::-webkit-scrollbar { display: none; }
-        #comment-box { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Kuruhusu scroll laini kwenye maboksi ya comment bila kuonyesha scrollbar mbaya */
+        #comment-box::-webkit-scrollbar { width: 3px; }
+        #comment-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -380,13 +393,41 @@
         let recognition = null;
         let commentInterval = null;
 
-        const swNames = ['juma','aisha','fatma','said','mussa','neema','baraka','halima','omari','daudi','maryam','yusuph','ali','amina','joyce','kelvin','lucy','idris','anna','salim','sharif','zainab','mariam','hamisi','ramadhani','abedi','khadija','rahma','abdu','rashid','hussein','saida','zara','nuru','khalid','latifa','hassan','ibrahim','salma','ahmed','shukuru','rahema','grace','peter','john','sarah'];
+        // Majina ya kipekee na tofauti kabisa yaliyopanuliwa ili kuzuia kurudiarudia kwa haraka
+        const swNames = [
+            'juma','aisha','fatma','said','mussa','neema','baraka','halima','omari','daudi',
+            'maryam','yusuph','ali','amina','joyce','kelvin','lucy','idris','anna','salim',
+            'sharif','zainab','mariam','hamisi','ramadhani','abedi','khadija','rahma','abdu','rashid',
+            'hussein','saida','zara','nuru','khalid','latifa','hassan','ibrahim','salma','ahmed',
+            'shukuru','rahema','grace','peter','john','sarah','steve','brayden','amina_tz',
+            'lucas_jr','mkudesimba','mwamvita','rehema_99','zuwena','goodluck','florah','raphael',
+            'godfrey','jackline','happyness','joel','gideon','beatus','beatrice','elizabeth'
+        ];
+        
         const samplePics = [
             'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
             'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
             'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
+            'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop',
+            'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=100&h=100&fit=crop'
         ];
+
+        let recentUsernames = [];
+
+        function getUniqueRandomUser() {
+            let availableNames = swNames.filter(n => !recentUsernames.includes(n));
+            if (availableNames.length === 0) {
+                recentUsernames = [];
+                availableNames = swNames;
+            }
+            const chosen = availableNames[Math.floor(Math.random() * availableNames.length)];
+            recentUsernames.push(chosen);
+            if (recentUsernames.length > 25) {
+                recentUsernames.shift();
+            }
+            return chosen + Math.floor(Math.random() * 899 + 100);
+        }
 
         function previewAvatar(event) {
             const file = event.target.files[0];
@@ -414,7 +455,6 @@
                 document.getElementById('verified-icon').classList.add('hidden');
             }
 
-            // Fungua Kamera
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ 
                     video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
@@ -432,7 +472,6 @@
             document.getElementById('live-ui').style.display = 'flex';
             isLive = true;
 
-            // Anzisha viewers na comments za AI
             startViewerEngine();
             startAIComments();
         }
@@ -457,14 +496,21 @@
             }, 1000);
         }
 
-        function addComment(username, text, isHost = false, replyTo = '') {
+        // Ongeza kipengele cha kuhakikisha kama ni sauti/maongezi (stealth = true) basi iwe fichi (opacity ndogo sana/kwa mbali) lakini ipo kwenye DOM ili AI na mfumo visome
+        function addComment(username, text, isHost = false, replyTo = '', isStealth = false) {
             const box = document.getElementById('comment-box');
+            
+            // Angalia kama mtumiaji alikuwa amejisogeza juu kusoma (manual scroll), ili tuzuie auto-scroll kulazimisha kumteremsha chini
+            const isScrolledUp = box.scrollHeight - box.scrollTop - box.clientHeight > 100;
+
             const item = document.createElement('div');
             item.className = 'comment-item';
+            if (isStealth && isHost) {
+                item.classList.add('stealth-comment');
+            }
 
             const avatarUrl = isHost ? myPfp : samplePics[Math.floor(Math.random() * samplePics.length)];
-            
-            let replyHtml = replyTo ? `<span class="reply-tag">@<span>${replyTo}</span></span>` : '';
+            let replyHtml = replyTo ? `<span class="reply-tag">@<span>${replyTo}</span></span> ` : '';
 
             item.innerHTML = `
                 <img class="comment-avatar" src="${avatarUrl}" alt="">
@@ -477,22 +523,27 @@
                 </div>
             `;
             box.appendChild(item);
-            box.scrollTop = box.scrollHeight;
 
-            // Futa maoni ya zamani yasijaze kumbukumbu
-            if (box.children.length > 30) {
+            // Kama mtumiaji yuko chini kabisa kwenye chat, mteremshe moja kwa moja
+            if (!isScrolledUp) {
+                box.scrollTop = box.scrollHeight;
+            }
+
+            // Futa maoni ya zamani zaidi ya 60 ili kuruhusu kurudi nyuma kusoma (history kubwa zaidi) bila kuleta lag
+            if (box.children.length > 60) {
                 box.removeChild(box.firstChild);
             }
         }
 
-        function sendMyComment() {
+        function sendMyComment(isFromVoice = false) {
             const input = document.getElementById('my-comment');
             const val = input.value.trim();
             if (!val) return;
-            addComment(myName, val, true);
+            
+            // Kama imeandikwa kwa kutype (isFromVoice = false), inaonekana kawaida. Kama imetokana na maongezi ya Mic, inakuwa fichi (stealth)
+            addComment(myName, val, true, '', isFromVoice);
             input.value = '';
 
-            // AI inajibu baada ya wewe kuongea au kuandika
             setTimeout(() => {
                 generateAIResponse(val);
             }, 1000);
@@ -510,7 +561,7 @@
                 if (!isLive) return;
                 const pool = generalComments[mood] || generalComments.engagement;
                 const randomText = pool[Math.floor(Math.random() * pool.length)];
-                const randomUser = swNames[Math.floor(Math.random() * swNames.length)] + Math.floor(Math.random() * 99);
+                const randomUser = getUniqueRandomUser();
                 addComment(randomUser, randomText);
             }, 3000);
         }
@@ -522,7 +573,7 @@
                 `Watu wanashangaa lakini ndio ukweli ulivyo.`,
                 `Safi sana! Endelea kutujuza zaidi.`
             ];
-            const randomUser = swNames[Math.floor(Math.random() * swNames.length)] + Math.floor(Math.random() * 99);
+            const randomUser = getUniqueRandomUser();
             const randomResp = responses[Math.floor(Math.random() * responses.length)];
             addComment(randomUser, randomResp, false, myName);
         }
@@ -545,20 +596,20 @@
             
             if (micActive) {
                 micBtn.classList.add('active');
-                showToast('Kipaza sauti kimewashwa (Listening...)');
+                showToast('Kipaza sauti kimewashwa (AI inasikiliza...)');
                 
-                // Anzisha Speech Recognition kama ipo kwenye browser
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (SpeechRecognition) {
                     recognition = new SpeechRecognition();
-                    recognition.lang = 'sw-TZ'; // Swahili
+                    recognition.lang = 'sw-TZ';
                     recognition.continuous = true;
                     recognition.interimResults = false;
 
                     recognition.onresult = function(event) {
                         const transcript = event.results[event.results.length - 1][0].transcript;
                         document.getElementById('my-comment').value = transcript;
-                        sendMyComment();
+                        // Tuma ikiwa na flag ya true ili iwe fichi (stealth) kwenye skrini ya watazamaji lakini AI isome na kujibu
+                        sendMyComment(true);
                     };
 
                     recognition.onerror = function(e) {
